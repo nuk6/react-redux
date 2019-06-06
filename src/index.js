@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+//Provider : such that our Home component at each level has access to store.
+import { Provider } from 'react-redux';
+//To create the store
+import { createStore } from 'redux';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import Home from './Home';
+import rootReducer from './reducers';
+import { addCharacterById } from './actions'
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const store = createStore(rootReducer);
+store.subscribe(() => console.log(store.getState()));
+store.dispatch(addCharacterById(3));
+ReactDOM.render(<Provider store={store}> <Home/> </Provider>, document.getElementById('root'));
